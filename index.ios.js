@@ -27,7 +27,7 @@ export default class peppe1 extends Component {
       totKm: 0
     };
   }
-  iterateOnDestinations = (origins, destinations) => {
+/*  iterateOnDestinations = async (origins, destinations) => {
     //alert('in iterateondest');
      distMatrix = fetch(
       "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
@@ -81,7 +81,83 @@ export default class peppe1 extends Component {
   }//while ends
     }
   console.log('eschio');
-  };
+};*/
+resetData = () => {
+  let totalKm = 0;
+  this.setState({ totKm: totalKm });
+  let zeroS = ['','','','','','','','','',''];
+  this.setState({ texts: zeroS });
+}
+iterateOnDestinations = async (origins, destinations) => {
+  //alert('in iterateondest');
+   distMatrix = fetch(
+    "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
+      origins +
+      "&destinations=" +
+      destinations +
+      "&key=AIzaSyB3p1VnII0ff1Mxl0VQp5nmWtnapy0UlbE"
+  )
+  .then(data =>  data.json())
+  .then(data => {
+      console.log(data);
+      let littleData = ['','',0]; //representing Origin, Destination and KM
+      littleData[0] = `${data.origin_addresses[0]}`;
+      littleData[1] =`${data.destination_addresses[0]}`;
+      littleData[2] = parseInt(`${data.rows[0].elements[0].distance.value}`);
+      return littleData;
+    })
+  .catch(err => {
+    alert(err + "error in distMatrix.then");
+  });
+  return distMatrix;
+};
+
+calculateDistances = async () => {
+  //{calculateDistances}
+  const destinationsArray = this.state.texts;
+  let totalKm = 0;
+  this.setState({ totKm: totalKm });
+  //we must reset state of totKm
+  let origIndex = 0;
+  let destIndex = 1;
+  if (destinationsArray[0] == null || destinationsArray[1] == null) {
+    alert("Can you at least fill the first two input fields ? yes ?");
+  } else {
+      while (destinationsArray[destIndex] != null) {
+        let origins = destinationsArray[origIndex]; //"bari";
+        let destinations = destinationsArray[destIndex]; //"san%20ferdinando%20di%20puglia";
+        try {
+          const arrayOfData = await this.iterateOnDestinations(origins,destinations);
+          //console.log('await = ' +totalKm[0]+' e '+ totalKm[1]+' e '+totalKm[2]);
+          texts = this.state.texts;
+          console.log('original texts: = '+texts);
+          texts[origIndex]=arrayOfData[0];
+          texts[destIndex]=arrayOfData[1];
+          console.log('texts index: = '+origIndex+' = '+texts[origIndex]);
+          console.log('texts index: = '+destIndex+' = '+texts[destIndex]);
+          this.setState({ texts: texts });
+          console.log('final texts: = '+this.state.texts);
+          totalKm = this.state.totKm + arrayOfData[2];
+          totKm = totalKm;
+          this.setState({ totKm: totKm });
+          console.log(totalKm);
+          origIndex++;
+          destIndex++;
+          } catch(e) {
+              console.error("Problem", e)
+            }
+  //  totalKm = totalKm +
+    //mode = no-cors ?
+
+    }//while ends
+  }
+//transfomring meters in km
+meters = this.state.totKm;
+meters = meters/1000
+this.setState({ totKm: meters })
+console.log('eschio');
+};
+
   render() {
     return (
       <Container>
@@ -92,14 +168,14 @@ export default class peppe1 extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Header</Title>
+            <Title>Carella Travels</Title>
           </Body>
           <Right />
         </Header>
         <Content>
           <Form>
             <Item floatingLabel>
-              <Label>City No.1</Label>
+              <Label style={styles.textContent}>City No.1</Label>
               <Input
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
@@ -141,6 +217,7 @@ export default class peppe1 extends Component {
                   texts[3] = text;
                   this.setState({ texts: texts });
                 }}
+                value={this.state.texts[3]}
               />
             </Item>
             <Item floatingLabel>
@@ -151,6 +228,7 @@ export default class peppe1 extends Component {
                   texts[4] = text;
                   this.setState({ texts: texts });
                 }}
+                value={this.state.texts[4]}
               />
             </Item>
             <Item floatingLabel>
@@ -161,6 +239,7 @@ export default class peppe1 extends Component {
                   texts[5] = text;
                   this.setState({ texts: texts });
                 }}
+                value={this.state.texts[5]}
               />
             </Item>
             <Item floatingLabel>
@@ -171,6 +250,7 @@ export default class peppe1 extends Component {
                   texts[6] = text;
                   this.setState({ texts: texts });
                 }}
+                value={this.state.texts[6]}
               />
             </Item>
             <Item floatingLabel>
@@ -181,6 +261,7 @@ export default class peppe1 extends Component {
                   texts[7] = text;
                   this.setState({ texts: texts });
                 }}
+                value={this.state.texts[7]}
               />
             </Item>
             <Item floatingLabel>
@@ -191,12 +272,8 @@ export default class peppe1 extends Component {
                   texts[8] = text;
                   this.setState({ texts: texts });
                 }}
+                value={this.state.texts[8]}
               />
-            </Item>
-            <Item floatingLabel>
-              <Label>City No.9
-
-              </Label>
             </Item>
             <Item floatingLabel last>
               <Label>City No.10</Label>
@@ -206,6 +283,7 @@ export default class peppe1 extends Component {
                   texts[9] = text;
                   this.setState({ texts: texts });
                 }}
+                value={this.state.texts[9]}
               />
             </Item>
           </Form>
@@ -214,6 +292,9 @@ export default class peppe1 extends Component {
           <FooterTab>
             <Button full>
               <Button onPress={this.calculateDistances}><Text>GO</Text></Button>
+            </Button>
+            <Button full>
+              <Button onPress={this.resetData}><Text>RESET</Text></Button>
             </Button>
             <Label>
             {this.state.totKm}
@@ -236,6 +317,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     margin: 10
+  },
+  textContent : {
+    fontSize: 4
   },
   instructions: {
     textAlign: "center",
