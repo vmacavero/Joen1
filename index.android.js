@@ -41,7 +41,7 @@ iterateOnDestinations = async (origins, destinations) => {
       origins +
       "&destinations=" +
       destinations +
-      "&key=AIzaSyB3p1VnII0ff1Mxl0VQp5nmWtnapy0UlbE"
+      "&key=YOURKEYHERE"
   )
   .then(data =>  data.json())
   .then(data => {
@@ -73,8 +73,8 @@ calculateDistances = async () => {
     alert("Can you at least fill the first two input fields ? yes ?");
   } else {
       while (destinationsArray[destIndex] != null &&  destinationsArray[destIndex] != '') {
-        let origins = destinationsArray[origIndex]; //"bari";
-        let destinations = destinationsArray[destIndex]; //"san%20ferdinando%20di%20puglia";
+        let origins = destinationsArray[origIndex]; 
+        let destinations = destinationsArray[destIndex]; 
         try {
           const arrayOfData = await this.iterateOnDestinations(origins,destinations);
           //console.log('await = ' +totalKm[0]+' e '+ totalKm[1]+' e '+totalKm[2]);
