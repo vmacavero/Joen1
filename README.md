@@ -6,8 +6,9 @@ Simply insert two or more places and the app will query the Google Distance Matr
 
 this.Setstate is correctly implemented and managed, making this a perfect app for starters.
 
-Is also uses NativeBase.
+It also uses NativeBase.
 
 Feel free to copy/fork/modify
 
+For info/critics/suggestions : Vmacavero@gmail.com
 
