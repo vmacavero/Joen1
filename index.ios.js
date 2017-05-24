@@ -27,65 +27,11 @@ export default class peppe1 extends Component {
       totKm: 0
     };
   }
-/*  iterateOnDestinations = async (origins, destinations) => {
-    //alert('in iterateondest');
-     distMatrix = fetch(
-      "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
-        origins +
-        "&destinations=" +
-        destinations +
-        "&key=AIzaSyB3p1VnII0ff1Mxl0VQp5nmWtnapy0UlbE"
-    );
-    return distMatrix;
-    //('http://api.icndb.com/jokes/random/4')
-  };
-  calculateDistances = () => {
-    //{calculateDistances}
-    const destinationsArray = this.state.texts;
-    let totalKm = 0;
-    let origIndex = 0;
-    let destIndex = 1;
-    if (destinationsArray[0] == null || destinationsArray[1] == null) {
-      alert("Can you at least fill the first two input fields ? yes ?");
-    } else {
-     while (destinationsArray[destIndex] != null) {
-      let origins = destinationsArray[origIndex]; //"bari";
-      let destinations = destinationsArray[destIndex]; //"san%20ferdinando%20di%20puglia";
-    const dist = this.iterateOnDestinations(origins, destinations)
-    dist.then(data => {
-      const distances = data.json();
-      distances.then(data => {
-        console.log(data);
-        const distance = parseInt(`${data.rows[0].elements[0].distance.value}`);
-        const destinText =`${data.destination_addresses[0]}`;
-        const originsText = `${data.origin_addresses[0]}`;
-        texts = this.state.texts;
-        texts[origIndex]=originsText;
-        console.log('texts index'+origIndex+' = '+texts[origIndex]);
-          console.log('texts index'+destIndex+' = '+texts[destIndex]);
-        texts[destIndex]=destinText;
-        this.setState({ texts: texts });
-        totalKm = this.state.totKm + distance;
-        totKm = totalKm;
-        this.setState({ totKm: totKm });
-        console.log(totalKm);
-        //fn(distance);
-      });
-    })
-    .catch(err => {
-      alert(err + "error in distMatrix.then");
-    });
-    //mode = no-cors ?
-    origIndex++;
-    destIndex++;
-  }//while ends
-    }
-  console.log('eschio');
-};*/
+
 resetData = () => {
   let totalKm = 0;
   this.setState({ totKm: totalKm });
-  let zeroS = ['','','','','','','','','',''];
+  let zeroS = [null,null,null,null,null,null,null,null,null,null];
   this.setState({ texts: zeroS });
 }
 iterateOnDestinations = async (origins, destinations) => {
@@ -120,10 +66,13 @@ calculateDistances = async () => {
   //we must reset state of totKm
   let origIndex = 0;
   let destIndex = 1;
-  if (destinationsArray[0] == null || destinationsArray[1] == null) {
+  if (destinationsArray[0] == null
+    || destinationsArray[0] == ''
+    ||destinationsArray[1] == ''
+    || destinationsArray[1] == null) {
     alert("Can you at least fill the first two input fields ? yes ?");
   } else {
-      while (destinationsArray[destIndex] != null) {
+      while (destinationsArray[destIndex] != null &&  destinationsArray[destIndex] != '') {
         let origins = destinationsArray[origIndex]; //"bari";
         let destinations = destinationsArray[destIndex]; //"san%20ferdinando%20di%20puglia";
         try {
@@ -156,27 +105,29 @@ meters = this.state.totKm;
 meters = meters/1000
 this.setState({ totKm: meters })
 console.log('eschio');
+//
 };
 
   render() {
     return (
       <Container>
-        <Header>
+        <Header style={{backgroundColor: '#7FACC0'}}>
           <Left>
             <Button transparent>
               <Icon name="menu" />
             </Button>
           </Left>
           <Body>
-            <Title>Carella Travels</Title>
+            <Title style={{fontSize: 10}}>Carella Travels</Title>
           </Body>
           <Right />
         </Header>
         <Content>
           <Form>
             <Item floatingLabel>
-              <Label style={styles.textContent}>City No.1</Label>
+              <Label style={{fontSize: 12}}>City No.1</Label>
               <Input
+                clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[0] = text;
@@ -187,8 +138,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.2</Label>
+              <Label style={{fontSize: 12}}>City No.2</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[1] = text;
@@ -198,8 +150,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.3</Label>
+              <Label style={{fontSize: 12}}>City No.3</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[2] = text;
@@ -210,8 +163,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.4</Label>
+              <Label style={{fontSize: 12}}>City No.4</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[3] = text;
@@ -221,8 +175,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.5</Label>
+              <Label style={{fontSize: 12}}>City No.5</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[4] = text;
@@ -232,8 +187,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.6</Label>
+              <Label style={{fontSize: 12}}>City No.6</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[5] = text;
@@ -243,8 +199,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.7</Label>
+              <Label style={{fontSize: 12}}>City No.7</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[6] = text;
@@ -254,8 +211,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.8</Label>
+              <Label style={{fontSize: 12}}>City No.8</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[7] = text;
@@ -265,8 +223,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel>
-              <Label>City No.9</Label>
+              <Label style={{fontSize: 12}}>City No.9</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[8] = text;
@@ -276,8 +235,9 @@ console.log('eschio');
               />
             </Item>
             <Item floatingLabel last>
-              <Label>City No.10</Label>
+              <Label style={{fontSize: 12}}>City No.10</Label>
               <Input
+              clearButtonMode = 'unless-editing'
                 onChangeText={text => {
                   var texts = this.state.texts.slice();
                   texts[9] = text;
@@ -318,22 +278,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10
   },
-  textContent : {
-    fontSize: 4
-  },
   instructions: {
     textAlign: "center",
     color: "#333333",
     marginBottom: 5
   }
 });
-
-/*axios.get('http://api.icndb.com/jokes/random/3')
-  .then(function (response) {
-    alert(response);
-  })
-  .catch(function (error) {
-    alert(error);
-  });*/
 
 AppRegistry.registerComponent("peppe1", () => peppe1);
